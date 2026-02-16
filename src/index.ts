@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import { swaggerUi, swaggerSpec } from "./swagger";
+import { swaggerUi, swaggerSpec, swaggerUiOptions } from "./swagger";
 
 import blueskyRoute from "./routes/bluesky";
 import capcutRoute from "./routes/capcut";
@@ -51,12 +51,8 @@ app.use("/api/twitter", twitterRoute);
 app.use("/api/youtube", youtubeRoute);
 
 // Swagger Documentation
-// 1. Serve the Swagger UI HTML at the root URL
-app.get("/", swaggerUi.setup(swaggerSpec));
-
-// 2. Serve static assets (JS, CSS) required by Swagger UI
-//    This allows /swagger-ui-bundle.js, etc. to be served
-app.use("/", swaggerUi.serve);
+// 1. Serve the Swagger UI HTML at the root URL, using CDN assets
+app.get("/", swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
