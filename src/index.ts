@@ -30,9 +30,7 @@ app.use(express.json());
 app.set("json spaces", 2);
 app.use(morgan("dev"));
 
-// Swagger Documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+// API Routes
 app.use("/api/bluesky", blueskyRoute);
 app.use("/api/capcut", capcutRoute);
 app.use("/api/dailymotion", dailymotionRoute);
@@ -52,37 +50,15 @@ app.use("/api/tumblr", tumblrRoute);
 app.use("/api/twitter", twitterRoute);
 app.use("/api/youtube", youtubeRoute);
 
-const endpoints = [
-  "/api/bluesky",
-  "/api/capcut",
-  "/api/dailymotion",
-  "/api/douyin",
-  "/api/kuaishou",
-  "/api/linkedin",
-  "/api/meta",
-  "/api/pinterest",
-  "/api/reddit",
-  "/api/snapchat",
-  "/api/spotify",
-  "/api/soundcloud",
-  "/api/terabox",
-  "/api/threads",
-  "/api/tiktok",
-  "/api/tumblr",
-  "/api/twitter",
-  "/api/youtube",
-];
+// Swagger Documentation
+// 1. Serve the Swagger UI HTML at the root URL
+app.get("/", swaggerUi.setup(swaggerSpec));
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    author: "Milan Bhandari",
-    contact: "https://www.milanb.com.np/",
-    message: "Universal Downloader API is running",
-    endpoints,
-  });
-});
+// 2. Serve static assets (JS, CSS) required by Swagger UI
+//    This allows /swagger-ui-bundle.js, etc. to be served
+app.use("/", swaggerUi.serve);
 
+// 404 Handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -90,6 +66,7 @@ app.use((req: Request, res: Response) => {
   });
 });
 
+// Error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error("❌ Error:", err.message);
   res.status(500).json({
