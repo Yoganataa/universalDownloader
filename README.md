@@ -38,8 +38,8 @@ Download media from LinkedIn,Threads, Reddit, Facebook, Instagram, TikTok, YouTu
   - Twitter ( X )
   - YouTube
 - Easy REST API endpoints
-- Built with JavaScript
-- **~~Swagger API documentation included~~**
+- Built with TypeScript
+- **Swagger API documentation included**
 - Modular architecture: services, controllers, routes
 
 ---
@@ -59,6 +59,11 @@ npm install
 1. Start the server:
 
 ```bash
+# Development
+npm run dev
+
+# Production
+npm run build
 npm start
 ```
 
@@ -107,7 +112,7 @@ Response:
 | `/api/twitter/download`     | Download Twitter media            | GET    |
 | `/api/youtube/download`     | Download YouTube media            | GET    |
 
-**~~See the full interactive API docs with Swagger at `/api-docs`.~~**
+**See the full interactive API docs with Swagger at `/api-docs`.**
 
 ---
 
@@ -115,10 +120,11 @@ Response:
 
 ```
 .
-├── controllers/       # API route handlers
-├── routes/            # Express route definitions
-├── services/          # Business logic & downloader functions
-├── server.js          # Express app entry point
+├── src/
+│   ├── controllers/       # API route handlers
+│   ├── routes/            # Express route definitions
+│   ├── services/          # Business logic & downloader functions
+│   └── index.ts           # Express app entry point
 └── package.json
 ```
 
